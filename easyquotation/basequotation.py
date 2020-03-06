@@ -4,7 +4,7 @@ import json
 import multiprocessing.pool
 import warnings
 import requests
-
+import re
 from . import helpers
 
 
@@ -116,7 +116,7 @@ class BaseQuotation(metaclass=abc.ABCMeta):
             res = pool.map(self.get_stocks_by_range, stock_list)
         finally:
             pool.close()
-        return [d for d in res if d is not None]
+        return [re.sub(r'\s', "", d) for d in res if d is not None]
 
     def format_response_data(self, rep_data, **kwargs):
         pass
